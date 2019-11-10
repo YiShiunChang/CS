@@ -1,0 +1,15 @@
+Complete the profiling part of the assignment using java flight recorder before 
+answering the following questions.
+
+1.) What can you tell about the performance of your hash table implementation compared to Java's tree map? Explain why it is better/worse.
+
+
+
+
+
+
+
+
+
+
+2.) What did you observe in java mission control to come to the conclusion above?

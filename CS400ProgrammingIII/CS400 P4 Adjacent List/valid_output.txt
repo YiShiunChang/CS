@@ -1,0 +1,31 @@
+************Course Planner************
+1.Enter input filename:
+2.Print all the available courses:
+3.Is it possible to take all courses?
+4.Print one of the possible order in which courses can be taken:
+5.Minimum number of courses needed to be taken for a given course:
+6.Quit 
+Enter the choice: 
+1
+Enter the json filename:
+valid.json
+Successfully parsed the json file and created graph.
+Enter the choice: 
+2
+All available courses:
+CS400,CS200,CS300,CS760,CS540,CS790
+Enter the choice: 
+3
+Yes
+Enter the choice: 
+4
+Course Ordering:
+CS200,CS300,CS400,CS540,CS760,CS790
+Enter the choice: 
+5
+Enter the courseName:
+CS300
+Minimum number of courses needed: 1
+Enter the choice: 
+6
+Quit

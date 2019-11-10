@@ -1,0 +1,25 @@
+************Course Planner************
+1.Enter input filename:
+2.Print all the available courses:
+3.Is it possible to take all courses?
+4.Print one of the possible order in which courses can be taken:
+5.Minimum number of courses needed to be taken for a given course:
+6.Quit 
+Enter the choice: 
+1
+Enter the json filename:
+invalid.json
+Successfully parsed the json file and created graph.
+Enter the choice: 
+2
+All available courses:
+CS400,CS300
+Enter the choice: 
+3
+No
+Enter the choice: 
+4
+Enter the choice: Exception occured.
+
+6
+Quit

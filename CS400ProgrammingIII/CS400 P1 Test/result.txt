@@ -1,0 +1,21 @@
+Testing priority queue class: PQ01
+  11 PASSED
+   0 FAILED
+  11 TOTAL TESTS RUN
+Testing priority queue class: PQ02
+java.lang.NullPointerException
+	at PQ02.isEmpty(PQ02.java:39)
+	at TestPQ.test00isEmpty(TestPQ.java:588)
+	at TestPQ.test(TestPQ.java:101)
+	at TestPQ.main(TestPQ.java:80)
+FAILED test00isEmpty: unexpectedly threw java.lang.NullPointerException
+FAILED test08removeEmpty: unexpectedly threw when handling isEmpty, and removeMax doesn't clean pq completely.
+   9 PASSED
+   2 FAILED
+  11 TOTAL TESTS RUN
+Testing priority queue class: PQ03
+FAILED test04insertRemoveMany: insert failjava.lang.NullPointerException
+FAILED test05duplicatesAllowed: insert failjava.lang.NullPointerException
+   9 PASSED
+   2 FAILED
+  11 TOTAL TESTS RUN
