@@ -1,0 +1,4 @@
+fruit	apple	0.0	1.0	0.0	
+nation	england	0.0	2.0	1.0	
+nation	taiwan	0.0	1.0	2.0	
+fruit	dragonfruit	0.0	0.0	1.0	
