@@ -1,0 +1,47 @@
+/*9080813901
+Find a list of all suppliers with orders from more than 615 different customers. 
+Include the supplier name and customer count in the output table and order the rows by decreasing customer count.*/
+SELECT S.S_NAME, count (DISTINCT O.O_CUSTKEY) AS customer_count
+FROM LINEITEM AS L, ORDERS AS O, SUPPLIER AS S
+WHERE L.L_ORDERKEY = O.O_ORDERKEY
+AND S.S_SUPPKEY = L.L_SUPPKEY
+GROUP BY L.L_SUPPKEY
+HAVING customer_count > 615
+ORDER BY customer_count DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

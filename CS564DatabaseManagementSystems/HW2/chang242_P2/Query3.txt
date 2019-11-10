@@ -1,0 +1,78 @@
+/*9080813901
+Produce a list of all nations in the database. The output table should include the name of the seller nation, 
+each nation’s total order volume from nations within their own region, and the total order volume from nations in a different region. 
+Sort the nations by their total order volume within their own region in descending order.*/
+WITH SUP_REGION AS (
+SELECT S.S_SUPPKEY AS SUP_KEY, N.N_NAME AS SUP_NATION, R.R_NAME AS SUP_REGION
+FROM SUPPLIER AS S, NATION AS N, REGION AS R
+WHERE S.S_NATIONKEY = N.N_NATIONKEY
+AND N.N_REGIONKEY = R.R_REGIONKEY
+), CUS_REGION AS (
+SELECT C.C_CUSTKEY AS CUS_KEY, C.C_NATIONKEY AS CUS_NATION, R.R_NAME AS CUS_REGION
+FROM CUSTOMER AS C, NATION AS N, REGION AS R
+WHERE C.C_NATIONKEY = N.N_NATIONKEY
+AND N.N_REGIONKEY = R.R_REGIONKEY
+)
+SELECT DIFFREGION.SUP_NATION AS seller_nation,  SAMEREGION.order_volume AS same_region_order_volume, DIFFREGION.order_volume AS diff_region_order_volume
+FROM 
+(
+SELECT SR.SUP_NATION, 
+			SR.SUP_REGION AS SREGION, 
+			CR.CUS_REGION AS CREGION,
+			sum(L.L_QUANTITY * (L.L_EXTENDEDPRICE - L.L_DISCOUNT)) AS order_volume
+FROM ORDERS AS O, LINEITEM AS L, SUP_REGION AS SR, CUS_REGION AS CR
+WHERE O.O_ORDERKEY = L.L_ORDERKEY
+AND L.L_SUPPKEY = SR.SUP_KEY
+AND O.O_CUSTKEY = CR.CUS_KEY
+AND SREGION != CREGION
+GROUP BY SR.SUP_NATION
+) AS DIFFREGION,
+(
+SELECT SR.SUP_NATION, 
+			SR.SUP_REGION AS SREGION, 
+			CR.CUS_REGION AS CREGION,
+			sum(L.L_QUANTITY * (L.L_EXTENDEDPRICE - L.L_DISCOUNT)) AS order_volume
+FROM ORDERS AS O, LINEITEM AS L, SUP_REGION AS SR, CUS_REGION AS CR
+WHERE O.O_ORDERKEY = L.L_ORDERKEY
+AND L.L_SUPPKEY = SR.SUP_KEY
+AND O.O_CUSTKEY = CR.CUS_KEY
+AND SREGION = CREGION
+GROUP BY SR.SUP_NATION
+) AS SAMEREGION
+WHERE SAMEREGION.SUP_NATION = DIFFREGION.SUP_NATION
+ORDER BY same_region_order_volume DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+/*9080813901
+Produce an alphabetical list of all nations in the database, 
+along with the total order volume within each nation (supplier nation equal customer nation). 
+The total order volume can be defined as the sum of order sizes.
+ Write two queries, one using a nested query and one without a nested query. 
+In each output table include the country name and the order volume.*/
+
+SELECT N.N_NAME AS country_name, sum(L.L_QUANTITY * (L.L_EXTENDEDPRICE - L.L_DISCOUNT)) AS order_volume
+FROM CUSTOMER AS C, LINEITEM AS L, ORDERS AS O, SUPPLIER AS S, NATION AS N
+WHERE O.O_CUSTKEY = C.C_CUSTKEY
+AND O.O_ORDERKEY = L.L_ORDERKEY
+AND L.L_SUPPKEY = S.S_SUPPKEY
+AND C.C_NATIONKEY = S.S_NATIONKEY
+AND C.C_NATIONKEY = N.N_NATIONKEY
+GROUP BY country_name
+ORDER BY country_name
+
+
+
+
+
+
+
+
+
+
+
+
+
