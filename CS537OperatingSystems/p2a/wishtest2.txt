@@ -1,0 +1,21 @@
+path /bin /usr/bin
+ls -l | wc -l
+ls -l|wc -l
+ls -l |wc -l
+ls -l| wc -l
+ls -l||wc -l
+ls -l | wc | -l
+ls -l ||wc -l
+ls -l|| wc -l
+ls -l| |wc -l
+
+ls -l > fuck.txt
+ls -l>fuck.txt
+ls -l >fuck.txt
+ls -l> fuck.txt
+ls -l>>fuck.txt
+ls -l > fuck.txt >
+ls -l >>fuck.txt
+ls -l>> fuck.txt
+ls -l> >fuck.txt
+exit

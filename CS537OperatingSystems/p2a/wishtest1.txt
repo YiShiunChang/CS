@@ -1,0 +1,11 @@
+ls
+pwd
+cd ..
+cd p2a
+history
+path /usr/bin
+ls
+path /usr/bin /bin
+ls -l > t.txt
+ls -l | wc -l
+exit

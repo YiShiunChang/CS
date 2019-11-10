@@ -1,0 +1,124 @@
+what I have done in this assignment:
+1. adding a systemcall() getpinfo, so we can test the result of modifying scheduler()
+	1.1 user/user.h 
+			struct pstat;
+			int getpinfo(struct pstat *);
+	1.2 user/usys.S 
+			SYSCALL(getpinfo)
+	1.3 kernel/syscall.c 
+			[SYS_getpinfo] sys_getpinfo,
+	1.4 kernel/sysfunc.h 
+			int sys_getpinfo(void);
+	1.5 kernel/defs.h
+			struct pstat;
+			// sysfile.c
+			int		        getpinfo(struct pstat*);
+	1.6 include/syscall.h
+			#define SYS_getpinfo 22
+	1.7 kernel/sysfile.c 
+			#include "pstat.h"
+			// system call getpinfo to get process infomation, returns 0 on success and -1 on failure. 
+			// if success, some basic information about each process: its process ID, 
+			// how many timer ticks have elapsed while running in each level, 
+			// which queue it is currently placed on (3, 2, 1, or 0), 
+			// and its current procstate (e.g., SLEEPING, RUNNABLE, or RUNNING) 
+			// will be filled in the pstat structure as defined
+			int sys_getpinfo(void) {
+    		struct pstat * ps;
+ 
+    		if (argptr(0, (char**)&ps, sizeof(struct pstat)) < 0) return -1;        
+    		if(ps == NULL) return -1;
+    
+    		return getpinfo(ps);
+			}
+	1.8 kernel/proc.c
+			#include "pstat.h"
+			int 
+			getpinfo (struct pstat *ps) 
+			{
+
+  			acquire(&ptable.lock);
+  			// iterates through process table to get information of each process
+  			for (int i = 0; i < NPROC; i++) {
+  		    struct proc *proc_ptr = &(ptable.proc[i]); // get address of a process
+   		    ps->inuse[i] = proc_ptr->state == UNUSED? 0 : 1;
+   		    ps->pid[i] = proc_ptr->pid;
+      		ps->priority[i] = proc_ptr->priority;
+      		ps->state[i] = proc_ptr->state;
+
+		      for (int j=0; j<4; j++) {
+    		    ps->ticks[i][j] = proc_ptr->ticks[j];
+        		ps->wait_ticks[i][j] = proc_ptr->wait_ticks[j];
+      		}
+  			}
+  			release(&ptable.lock);
+  			return 0;
+			}
+2. adding user test file testmlfq1.c and testmlfq2.c, so we can use testmlfq to call getpinfo, and then get the result of scheduler() 
+	2.1 user/makefile.mk
+			testmlfq1\
+			testmlfq2\
+	2.2 check testmlfq1.c
+			check testmlfq2.c
+3. changing scheduler() and allocproc() in proc.c, changing structure of proc in proc.h, and adding pstat.h to implement MLFQ
+	3.1 check proc.c
+	3.2 check porc.h
+	3.3 check pstat.h
+
+
+scp ./user/user.h ./user/usys.S ./user/makefile.mk ./user/testmlfq.c yi-shiun@best-linux.cs.wisc.edu:/u/y/i/yi-shiun/Documents/cs537/p2b/user
+scp ./include/syscall.h ./include/pstat.h yi-shiun@best-linux.cs.wisc.edu:/u/y/i/yi-shiun/Documents/cs537/p2b/include
+scp ./kernel/syscall.c ./kernel/sysfunc.h ./kernel/defs.h ./kernel/sysfile.c ./kernel/proc.c ./kernel/proc.h yi-shiun@best-linux.cs.wisc.edu:/u/y/i/yi-shiun/Documents/cs537/p2b/kernel
+
+
+
+======================================================================
+
+xv6 is a re-implementation of Dennis Ritchie's and Ken Thompson's Unix
+Version 6 (v6).  xv6 loosely follows the structure and style of v6,
+but is implemented for a modern x86-based multiprocessor using ANSI C.
+
+ACKNOWLEDGMENTS
+
+xv6 is inspired by John Lions's Commentary on UNIX 6th Edition (Peer
+to Peer Communications; ISBN: 1-57398-013-7; 1st edition (June 14,
+2000)). See also http://pdos.csail.mit.edu/6.828/2007/v6.html, which
+provides pointers to on-line resources for v6.
+
+xv6 borrows code from the following sources:
+    JOS (asm.h, elf.h, mmu.h, bootasm.S, ide.c, console.c, and others)
+    Plan 9 (bootother.S, mp.h, mp.c, lapic.c)
+    FreeBSD (ioapic.c)
+    NetBSD (console.c)
+
+The following people made contributions:
+    Russ Cox (context switching, locking)
+    Cliff Frey (MP)
+    Xiao Yu (MP)
+    Nickolai Zeldovich
+    Austin Clements
+
+In addition, we are grateful for the patches contributed by Greg
+Price, Yandong Mao, and Hitoshi Mitake.
+
+The code in the files that constitute xv6 is
+Copyright 2006-2007 Frans Kaashoek, Robert Morris, and Russ Cox.
+
+ERROR REPORTS
+
+If you spot errors or have suggestions for improvement, please send
+email to Frans Kaashoek and Robert Morris (kaashoek,rtm@csail.mit.edu). 
+
+BUILDING AND RUNNING XV6
+
+To build xv6 on an x86 ELF machine (like Linux or FreeBSD), run "make".
+On non-x86 or non-ELF machines (like OS X, even on x86), you will
+need to install a cross-compiler gcc suite capable of producing x86 ELF
+binaries.  See http://pdos.csail.mit.edu/6.828/2007/tools.html.
+Then run "make TOOLPREFIX=i386-jos-elf-".
+
+To run xv6, you can use Bochs or QEMU, both PC simulators.
+Bochs makes debugging easier, but QEMU is much faster. 
+To run in Bochs, run "make bochs" and then type "c" at the bochs prompt.
+To run in QEMU, run "make qemu".
+
