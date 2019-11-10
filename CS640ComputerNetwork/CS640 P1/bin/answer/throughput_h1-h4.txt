@@ -1,0 +1,4 @@
+Using server mode
+Waiting for client connection on port: 10000
+Connected IP: /10.0.0.1:49927
+received = 32064.0 KB, rate = 5.995652478788304 Mbps
