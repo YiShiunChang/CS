@@ -28,7 +28,7 @@ public class UniqueEmails {
 			set.add(getUnique(email));
 		}
     
-    return set.size();
+		return set.size();
 	}
 	
 	public String getUnique(String email) {
