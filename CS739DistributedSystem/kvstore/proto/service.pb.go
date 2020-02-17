@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -227,33 +228,107 @@ func (m *PrefixKey) GetPrefix() string {
 	return ""
 }
 
+type States struct {
+	ServerStartTime      string   `protobuf:"bytes,1,opt,name=serverStartTime,proto3" json:"serverStartTime,omitempty"`
+	TotalGetsDone        int64    `protobuf:"varint,2,opt,name=totalGetsDone,proto3" json:"totalGetsDone,omitempty"`
+	TotalSetsDone        int64    `protobuf:"varint,3,opt,name=totalSetsDone,proto3" json:"totalSetsDone,omitempty"`
+	TotalGetprefixesDone int64    `protobuf:"varint,4,opt,name=totalGetprefixesDone,proto3" json:"totalGetprefixesDone,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *States) Reset()         { *m = States{} }
+func (m *States) String() string { return proto.CompactTextString(m) }
+func (*States) ProtoMessage()    {}
+func (*States) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a0b84a42fa06f626, []int{5}
+}
+
+func (m *States) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_States.Unmarshal(m, b)
+}
+func (m *States) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_States.Marshal(b, m, deterministic)
+}
+func (m *States) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_States.Merge(m, src)
+}
+func (m *States) XXX_Size() int {
+	return xxx_messageInfo_States.Size(m)
+}
+func (m *States) XXX_DiscardUnknown() {
+	xxx_messageInfo_States.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_States proto.InternalMessageInfo
+
+func (m *States) GetServerStartTime() string {
+	if m != nil {
+		return m.ServerStartTime
+	}
+	return ""
+}
+
+func (m *States) GetTotalGetsDone() int64 {
+	if m != nil {
+		return m.TotalGetsDone
+	}
+	return 0
+}
+
+func (m *States) GetTotalSetsDone() int64 {
+	if m != nil {
+		return m.TotalSetsDone
+	}
+	return 0
+}
+
+func (m *States) GetTotalGetprefixesDone() int64 {
+	if m != nil {
+		return m.TotalGetprefixesDone
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*Key)(nil), "proto.Key")
 	proto.RegisterType((*Value)(nil), "proto.Value")
 	proto.RegisterType((*KeyValuePair)(nil), "proto.KeyValuePair")
 	proto.RegisterType((*SetResponse)(nil), "proto.SetResponse")
 	proto.RegisterType((*PrefixKey)(nil), "proto.PrefixKey")
+	proto.RegisterType((*States)(nil), "proto.States")
 }
 
 func init() { proto.RegisterFile("service.proto", fileDescriptor_a0b84a42fa06f626) }
 
 var fileDescriptor_a0b84a42fa06f626 = []byte{
-	// 236 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x8f, 0x51, 0x4b, 0xc3, 0x30,
-	0x14, 0x85, 0x17, 0x43, 0x37, 0x7b, 0x9d, 0x30, 0xae, 0xa2, 0x63, 0x20, 0x68, 0x7c, 0xd0, 0xa7,
-	0x39, 0x14, 0xfc, 0x0b, 0x7b, 0xc8, 0xcb, 0x68, 0x61, 0xef, 0xb3, 0x1c, 0xa1, 0x28, 0xa6, 0x24,
-	0xd9, 0x30, 0xbf, 0xc2, 0xbf, 0x2c, 0x4d, 0xe3, 0x56, 0xdc, 0x53, 0xcf, 0xb9, 0x3d, 0x27, 0xf7,
-	0xbb, 0x74, 0xee, 0x60, 0x77, 0x75, 0x85, 0x79, 0x63, 0x8d, 0x37, 0x9c, 0xc5, 0x8f, 0xba, 0x26,
-	0xa9, 0x11, 0x78, 0x42, 0xf2, 0x03, 0x61, 0x2a, 0x6e, 0xc5, 0x63, 0x5e, 0xb4, 0x52, 0xdd, 0x50,
-	0xb6, 0xde, 0x7c, 0x6e, 0xc1, 0x97, 0x94, 0xed, 0x5a, 0x91, 0x7e, 0x76, 0x46, 0xbd, 0xd2, 0x58,
-	0x23, 0xc4, 0xc4, 0x6a, 0x53, 0xdb, 0xe3, 0x07, 0x0e, 0xbd, 0x93, 0x7e, 0xef, 0x81, 0xce, 0x4a,
-	0xf8, 0x02, 0xae, 0x31, 0x5f, 0x0e, 0x3c, 0xa5, 0x91, 0xdb, 0x56, 0x15, 0x9c, 0x8b, 0xd5, 0xd3,
-	0xe2, 0xcf, 0xaa, 0x7b, 0xca, 0x57, 0x16, 0xef, 0xf5, 0x77, 0x8b, 0x77, 0x45, 0xc3, 0x26, 0x9a,
-	0xb4, 0x20, 0xb9, 0xe7, 0x1f, 0x41, 0x23, 0xbd, 0x2e, 0xbd, 0xb1, 0xe0, 0x3b, 0x92, 0x4b, 0x78,
-	0xa6, 0xee, 0xbe, 0xb9, 0x46, 0x98, 0x8d, 0x93, 0x8e, 0x98, 0x6a, 0xc0, 0x0b, 0x92, 0x25, 0x3c,
-	0x5f, 0x1c, 0x22, 0xfb, 0x03, 0x66, 0x9c, 0x86, 0x3d, 0x3a, 0x35, 0xe0, 0x27, 0xca, 0x97, 0xf0,
-	0x1d, 0x08, 0x4f, 0x52, 0x64, 0xcf, 0xf5, 0x7f, 0xc1, 0x42, 0xbc, 0x0d, 0xe3, 0xe0, 0xe5, 0x37,
-	0x00, 0x00, 0xff, 0xff, 0x25, 0x01, 0x3f, 0x83, 0x6e, 0x01, 0x00, 0x00,
+	// 390 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x52, 0x4d, 0x6f, 0xd3, 0x40,
+	0x10, 0x8d, 0x6b, 0x9c, 0x90, 0xa1, 0x81, 0x6a, 0xa8, 0x4a, 0x65, 0x84, 0x04, 0x0b, 0x12, 0x3d,
+	0x39, 0x55, 0x90, 0x90, 0x10, 0x47, 0x3e, 0x7c, 0xf0, 0xa5, 0xf2, 0xa2, 0x72, 0x76, 0xac, 0x49,
+	0x62, 0x91, 0x64, 0xad, 0xdd, 0x71, 0x84, 0xff, 0x16, 0x3f, 0x8e, 0x33, 0xf2, 0xae, 0x9d, 0x84,
+	0x40, 0x0e, 0x39, 0x79, 0xe6, 0xf9, 0xbd, 0xdd, 0xb7, 0xf3, 0x06, 0x46, 0x86, 0xf4, 0xa6, 0xc8,
+	0x29, 0x2a, 0xb5, 0x62, 0x85, 0x81, 0xfd, 0x84, 0xcf, 0xe7, 0x4a, 0xcd, 0x97, 0x34, 0xb6, 0xdd,
+	0xb4, 0x9a, 0x8d, 0x69, 0x55, 0x72, 0xed, 0x38, 0xe2, 0x19, 0xf8, 0x09, 0xd5, 0x78, 0x01, 0xfe,
+	0x0f, 0xaa, 0xaf, 0xbd, 0x97, 0xde, 0xcd, 0x30, 0x6d, 0x4a, 0xf1, 0x02, 0x82, 0xfb, 0x6c, 0x59,
+	0x11, 0x5e, 0x42, 0xb0, 0x69, 0x8a, 0xf6, 0xa7, 0x6b, 0xc4, 0x7b, 0x38, 0x4f, 0xa8, 0xb6, 0x8c,
+	0xbb, 0xac, 0xd0, 0xff, 0x1e, 0xb0, 0xd3, 0x9d, 0xed, 0xeb, 0xde, 0xc2, 0x23, 0x49, 0x9c, 0x92,
+	0x29, 0xd5, 0xda, 0x10, 0x5e, 0xc3, 0xc0, 0x54, 0x79, 0x4e, 0xc6, 0x58, 0xe9, 0xc3, 0xb4, 0x6b,
+	0xc5, 0x6b, 0x18, 0xde, 0x69, 0x9a, 0x15, 0x3f, 0x1b, 0x7b, 0x57, 0xd0, 0x2f, 0x6d, 0xd3, 0x5e,
+	0xd0, 0x76, 0xe2, 0x97, 0x07, 0x7d, 0xc9, 0x19, 0x93, 0xc1, 0x1b, 0x78, 0xd2, 0xbc, 0x9e, 0xb4,
+	0xe4, 0x4c, 0xf3, 0xb7, 0x62, 0xd5, 0x19, 0x3e, 0x84, 0xf1, 0x0d, 0x8c, 0x58, 0x71, 0xb6, 0x8c,
+	0x89, 0xcd, 0x67, 0xb5, 0x76, 0x06, 0xfd, 0xf4, 0x6f, 0x70, 0xcb, 0x92, 0x1d, 0xcb, 0xdf, 0x63,
+	0x75, 0x20, 0x4e, 0xe0, 0xb2, 0x93, 0x39, 0x4b, 0xe4, 0xc8, 0x0f, 0x2c, 0xf9, 0xbf, 0xff, 0x26,
+	0xbf, 0xcf, 0x60, 0x90, 0xdc, 0x4b, 0x56, 0x9a, 0xf0, 0x15, 0xf8, 0x31, 0x31, 0x82, 0x4b, 0x23,
+	0x4a, 0xa8, 0x0e, 0xcf, 0xdb, 0xda, 0xce, 0x56, 0xf4, 0xf0, 0x16, 0x7c, 0x49, 0x8c, 0x4f, 0x77,
+	0x94, 0xed, 0xd4, 0x43, 0x6c, 0xc1, 0xbd, 0x91, 0x8a, 0x1e, 0x7e, 0x84, 0xc7, 0x92, 0xf8, 0x7b,
+	0xc1, 0x0b, 0x55, 0xb1, 0xac, 0xd7, 0xf9, 0x29, 0xe2, 0x0f, 0x10, 0x7c, 0x35, 0x8d, 0xe6, 0x2a,
+	0x72, 0x7b, 0x13, 0x75, 0x7b, 0x13, 0x7d, 0x69, 0xf6, 0x26, 0x3c, 0x82, 0x8b, 0x1e, 0x8e, 0x61,
+	0x18, 0x13, 0xbb, 0xd4, 0xf0, 0xa2, 0x3d, 0x7d, 0x1b, 0xe2, 0xe1, 0xc3, 0x6e, 0x3d, 0x9c, 0xc0,
+	0x20, 0x26, 0x6e, 0x02, 0x3c, 0x7a, 0xdb, 0xa8, 0x33, 0x69, 0x53, 0x76, 0xfe, 0x3e, 0xe9, 0xcc,
+	0x2c, 0x4e, 0xf7, 0x37, 0xed, 0x5b, 0xe4, 0xdd, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x67, 0x79,
+	0x91, 0x07, 0x27, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -270,7 +345,11 @@ const _ = grpc.SupportPackageIsVersion6
 type KVStoreClient interface {
 	Get(ctx context.Context, in *Key, opts ...grpc.CallOption) (*Value, error)
 	Set(ctx context.Context, in *KeyValuePair, opts ...grpc.CallOption) (*SetResponse, error)
+	SetWithoutSync(ctx context.Context, in *KeyValuePair, opts ...grpc.CallOption) (*SetResponse, error)
+	Fsync(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetPrefix(ctx context.Context, in *PrefixKey, opts ...grpc.CallOption) (KVStore_GetPrefixClient, error)
+	GetStat(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*States, error)
+	Crash(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type kVStoreClient struct {
@@ -293,6 +372,24 @@ func (c *kVStoreClient) Get(ctx context.Context, in *Key, opts ...grpc.CallOptio
 func (c *kVStoreClient) Set(ctx context.Context, in *KeyValuePair, opts ...grpc.CallOption) (*SetResponse, error) {
 	out := new(SetResponse)
 	err := c.cc.Invoke(ctx, "/proto.KVStore/Set", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kVStoreClient) SetWithoutSync(ctx context.Context, in *KeyValuePair, opts ...grpc.CallOption) (*SetResponse, error) {
+	out := new(SetResponse)
+	err := c.cc.Invoke(ctx, "/proto.KVStore/SetWithoutSync", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kVStoreClient) Fsync(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.KVStore/Fsync", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -331,11 +428,33 @@ func (x *kVStoreGetPrefixClient) Recv() (*Value, error) {
 	return m, nil
 }
 
+func (c *kVStoreClient) GetStat(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*States, error) {
+	out := new(States)
+	err := c.cc.Invoke(ctx, "/proto.KVStore/GetStat", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kVStoreClient) Crash(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/proto.KVStore/Crash", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KVStoreServer is the server API for KVStore service.
 type KVStoreServer interface {
 	Get(context.Context, *Key) (*Value, error)
 	Set(context.Context, *KeyValuePair) (*SetResponse, error)
+	SetWithoutSync(context.Context, *KeyValuePair) (*SetResponse, error)
+	Fsync(context.Context, *empty.Empty) (*empty.Empty, error)
 	GetPrefix(*PrefixKey, KVStore_GetPrefixServer) error
+	GetStat(context.Context, *empty.Empty) (*States, error)
+	Crash(context.Context, *empty.Empty) (*empty.Empty, error)
 }
 
 // UnimplementedKVStoreServer can be embedded to have forward compatible implementations.
@@ -348,8 +467,20 @@ func (*UnimplementedKVStoreServer) Get(ctx context.Context, req *Key) (*Value, e
 func (*UnimplementedKVStoreServer) Set(ctx context.Context, req *KeyValuePair) (*SetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Set not implemented")
 }
+func (*UnimplementedKVStoreServer) SetWithoutSync(ctx context.Context, req *KeyValuePair) (*SetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWithoutSync not implemented")
+}
+func (*UnimplementedKVStoreServer) Fsync(ctx context.Context, req *empty.Empty) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Fsync not implemented")
+}
 func (*UnimplementedKVStoreServer) GetPrefix(req *PrefixKey, srv KVStore_GetPrefixServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetPrefix not implemented")
+}
+func (*UnimplementedKVStoreServer) GetStat(ctx context.Context, req *empty.Empty) (*States, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStat not implemented")
+}
+func (*UnimplementedKVStoreServer) Crash(ctx context.Context, req *empty.Empty) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Crash not implemented")
 }
 
 func RegisterKVStoreServer(s *grpc.Server, srv KVStoreServer) {
@@ -392,6 +523,42 @@ func _KVStore_Set_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KVStore_SetWithoutSync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KeyValuePair)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KVStoreServer).SetWithoutSync(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.KVStore/SetWithoutSync",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KVStoreServer).SetWithoutSync(ctx, req.(*KeyValuePair))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KVStore_Fsync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KVStoreServer).Fsync(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.KVStore/Fsync",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KVStoreServer).Fsync(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _KVStore_GetPrefix_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(PrefixKey)
 	if err := stream.RecvMsg(m); err != nil {
@@ -413,6 +580,42 @@ func (x *kVStoreGetPrefixServer) Send(m *Value) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _KVStore_GetStat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KVStoreServer).GetStat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.KVStore/GetStat",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KVStoreServer).GetStat(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KVStore_Crash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KVStoreServer).Crash(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.KVStore/Crash",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KVStoreServer).Crash(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _KVStore_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "proto.KVStore",
 	HandlerType: (*KVStoreServer)(nil),
@@ -424,6 +627,22 @@ var _KVStore_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Set",
 			Handler:    _KVStore_Set_Handler,
+		},
+		{
+			MethodName: "SetWithoutSync",
+			Handler:    _KVStore_SetWithoutSync_Handler,
+		},
+		{
+			MethodName: "Fsync",
+			Handler:    _KVStore_Fsync_Handler,
+		},
+		{
+			MethodName: "GetStat",
+			Handler:    _KVStore_GetStat_Handler,
+		},
+		{
+			MethodName: "Crash",
+			Handler:    _KVStore_Crash_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
