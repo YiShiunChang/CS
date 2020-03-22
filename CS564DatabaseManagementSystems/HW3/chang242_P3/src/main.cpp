@@ -203,7 +203,7 @@ void createRelationForward()
   	Page new_page = file1->allocatePage(new_page_number);
 
   // Insert a bunch of tuples into the relation.
-  	for (int i = 0; i < relationSize; i++ ) {
+	for (int i = 0; i < relationSize; i++ ) {
 		sprintf(record1.s, "%05d string record", i);
 		record1.i = i;
 		record1.d = (double)i;
